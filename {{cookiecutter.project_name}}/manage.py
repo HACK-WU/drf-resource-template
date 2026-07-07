@@ -14,6 +14,6 @@ if "celery" in sys.argv and "gevent" in sys.argv:
 {% endif %}
 
 if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "{{ cookiecutter.project_name }}.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "{{ cookiecutter.__project_slug }}.settings")
     from django.core.management import execute_from_command_line
     execute_from_command_line(sys.argv)

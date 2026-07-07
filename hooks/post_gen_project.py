@@ -2,6 +2,7 @@
 import os
 
 PROJECT_NAME = "{{ cookiecutter.project_name }}"
+PROJECT_SLUG = "{{ cookiecutter.__project_slug }}"
 ENABLE_CELERY = "{{ cookiecutter.enable_celery }}" == "yes"
 ENABLE_REDIS_CACHE = "{{ cookiecutter.enable_redis_cache }}" == "yes"
 ENABLE_CORS = "{{ cookiecutter.enable_cors }}" == "yes"
@@ -33,12 +34,20 @@ print(f"""
    该文件已被 .gitignore 忽略，不会被提交。
 """)
 
+if PROJECT_NAME != PROJECT_SLUG:
+    print(f"""
+📌 项目名称提示：
+   项目目录: {PROJECT_NAME}/
+   Python 包名: {PROJECT_SLUG} (用于 import)
+   manage.py、settings.py 等已自动配置，无需手动修改。
+""")
+
 if ENABLE_CELERY:
     print("""
 🔧 Celery 已启用，启动 worker：
-   celery -A {{ cookiecutter.project_name }} worker -l info
+   celery -A {{ cookiecutter.__project_slug }} worker -l info
    # 启动 beat（定时任务）：
-   celery -A {{ cookiecutter.project_name }} beat -l info
+   celery -A {{ cookiecutter.__project_slug }} beat -l info
 """)
 
 if ENABLE_REDIS_CACHE:

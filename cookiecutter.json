@@ -1,5 +1,6 @@
 {
     "project_name": "my_project",
+    "__project_slug": "{{ cookiecutter.project_name|lower|replace('-', '_')|replace(' ', '_')|replace('.', '_') }}",
     "project_description": "A Django REST Framework project powered by drf_resource",
     "author_name": "Your Name",
     "python_version": ["3.11", "3.12", "3.13"],

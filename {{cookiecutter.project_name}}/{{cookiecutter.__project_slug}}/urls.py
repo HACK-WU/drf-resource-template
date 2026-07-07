@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, re_path, include
 from drf_resource.views.routers import ResourceRouter
-from {{ cookiecutter.project_name }}.apps.example.viewsets import ExampleViewSet
+from {{ cookiecutter.__project_slug }}.apps.example.viewsets import ExampleViewSet
 
 router = ResourceRouter()
 router.register("example", ExampleViewSet)

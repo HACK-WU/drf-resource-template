@@ -35,7 +35,7 @@ class TestS01Engine:
         assert project_dir.exists()
 
     def test_tc_s01_02_02_illegal_project_name_rejected(self, render_template):
-        """TC-S01-02-02: 非法项目名被拒绝"""
+        """TC-S01-02-02: 转换后仍非法的项目名被拒绝（如纯数字开头）"""
         with pytest.raises(Exception):
             render_template(project_name="123abc")
 
@@ -44,10 +44,31 @@ class TestS01Engine:
         with pytest.raises(Exception):
             render_template(project_name="config")
 
+    def test_tc_s01_02_03b_python_keyword_rejected(self, render_template):
+        """TC-S01-02-03b: Python 关键字被拒绝"""
+        with pytest.raises(Exception):
+            render_template(project_name="import")
+
     def test_tc_s01_02_04_boundary_name(self, render_template):
         """TC-S01-02-04: 边界名称"""
         project_dir = render_template(project_name="a")
         assert project_dir.exists()
+
+    def test_tc_s01_02_05_hyphen_auto_corrected(self, render_template):
+        """TC-S01-02-05: 含连字符的项目名自动纠正为合法包名"""
+        project_dir = render_template(project_name="my-project")
+        assert project_dir.exists()
+        # 内层包目录使用 __project_slug（下划线）
+        assert (project_dir / "my_project" / "settings.py").is_file()
+        # manage.py 中的 settings 模块路径使用纠正后的包名
+        content = (project_dir / "manage.py").read_text()
+        assert "my_project.settings" in content
+
+    def test_tc_s01_02_06_uppercase_auto_corrected(self, render_template):
+        """TC-S01-02-06: 大写项目名自动纠正为小写包名"""
+        project_dir = render_template(project_name="MyApp")
+        assert project_dir.exists()
+        assert (project_dir / "myapp" / "settings.py").is_file()
 
     # ── TC-S01-03: 生成后 hook ──────────────────────────
     def test_tc_s01_03_01_post_gen_guidance(self, render_template):

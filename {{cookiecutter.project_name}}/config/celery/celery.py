@@ -9,9 +9,9 @@ from django.db import close_old_connections
 # 允许 root 启动 celery
 platforms.C_FORCE_ROOT = True
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "{{ cookiecutter.project_name }}.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "{{ cookiecutter.__project_slug }}.settings")
 
-app = Celery("{{ cookiecutter.project_name }}")
+app = Celery("{{ cookiecutter.__project_slug }}")
 
 # 从 config.celery.config 加载配置
 app.config_from_object("config.celery.config:Config")

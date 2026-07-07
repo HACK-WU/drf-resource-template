@@ -1,12 +1,12 @@
 """
 Worker 角色配置
-启动方式: DJANGO_ROLE=worker celery -A {{ cookiecutter.project_name }} worker -l info
+启动方式: DJANGO_ROLE=worker celery -A {{ cookiecutter.__project_slug }} worker -l info
 """
 import os
 
 {% if cookiecutter.enable_celery == "yes" %}
 # Worker 角色仅需要 Celery + 核心模块，不需要 REST Framework / CORS / API 文档
-ROOT_URLCONF = "{{ cookiecutter.project_name }}.urls"
+ROOT_URLCONF = "{{ cookiecutter.__project_slug }}.urls"
 
 # 精简 INSTALLED_APPS：移除 drf_resource、drf_spectacular 等 Web 专属 App
 INSTALLED_APPS = [
@@ -16,7 +16,7 @@ INSTALLED_APPS = [
     "django_celery_beat",
     "django_celery_results",
     {% endif %}
-    "{{ cookiecutter.project_name }}.apps.example",
+    "{{ cookiecutter.__project_slug }}.apps.example",
 ]
 
 # Worker 不需要 MIDDLEWARE
@@ -37,7 +37,7 @@ CELERYD_CONCURRENCY = int(os.getenv("CELERYD_CONCURRENCY", 2))
 # run_type: "global" 全局执行 / "cluster" 分集群执行
 DEFAULT_CRONTAB = [
     # 示例：
-    # ("{{ cookiecutter.project_name }}.apps.example.tasks.cleanup_expired_data", "*/30 * * * *", "global"),
+    # ("{{ cookiecutter.__project_slug }}.apps.example.tasks.cleanup_expired_data", "*/30 * * * *", "global"),
 ]
 
 # 耗时任务单独队列

@@ -84,7 +84,7 @@ docstring-code-format = true
 
 # ── pytest ────────────────────────────────────
 [tool.pytest.ini_options]
-DJANGO_SETTINGS_MODULE = "{{ cookiecutter.project_name }}.settings"
+DJANGO_SETTINGS_MODULE = "{{ cookiecutter.__project_slug }}.settings"
 python_files = ["test_*.py", "tests.py"]
 testpaths = ["tests"]
 console_output_style = "count"

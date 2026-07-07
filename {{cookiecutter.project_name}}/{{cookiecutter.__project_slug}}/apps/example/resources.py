@@ -1,6 +1,6 @@
 """示例 Resource"""
 from drf_resource.resources.base import Resource
-from {{ cookiecutter.project_name }}.apps.example.serializers import (
+from {{ cookiecutter.__project_slug }}.apps.example.serializers import (
     ExampleRequestSerializer,
     ExampleResponseSerializer,
 )

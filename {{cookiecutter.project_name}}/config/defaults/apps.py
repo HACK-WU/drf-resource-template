@@ -23,7 +23,7 @@ INSTALLED_APPS = [
     "django_celery_results",
     {% endif %}
     "drf_spectacular",
-    "{{ cookiecutter.project_name }}.apps.example",
+    "{{ cookiecutter.__project_slug }}.apps.example",
 ]
 
 MIDDLEWARE = [
@@ -42,8 +42,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
 ]
 
-ROOT_URLCONF = "{{ cookiecutter.project_name }}.urls"
-WSGI_APPLICATION = "{{ cookiecutter.project_name }}.wsgi.application"
+ROOT_URLCONF = "{{ cookiecutter.__project_slug }}.urls"
+WSGI_APPLICATION = "{{ cookiecutter.__project_slug }}.wsgi.application"
 
 TEMPLATES = [
     {
