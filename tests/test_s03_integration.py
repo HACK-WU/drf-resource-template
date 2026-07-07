@@ -15,21 +15,16 @@ class TestS03URLRouting:
         assert "ResourceRouter" in content, "urls.py should contain 'ResourceRouter'"
         assert "router.register" in content, "urls.py should contain 'router.register'"
 
-    @pytest.mark.parametrize("enable_api_docs,expected", [
-        ("yes", True),
-        ("no", False),
-    ])
-    def test_api_docs_route_conditional_generation(self, render_template, enable_api_docs, expected):
-        """TC-S03-01-02: API docs routes are conditionally generated."""
-        project_dir = render_template(enable_api_docs=enable_api_docs)
+    def test_api_docs_route_only_in_debug(self, render_template):
+        """TC-S03-01-02: API docs routes are included via drf_resource.contrib.urls, only in DEBUG mode."""
+        project_dir = render_template()
         urls_py = project_dir / "test_project" / "urls.py"
 
         assert urls_py.exists(), f"urls.py not found at {urls_py}"
         content = urls_py.read_text()
-        assert ("SpectacularAPIView" in content) == expected, (
-            f"Expected 'SpectacularAPIView' {'present' if expected else 'absent'} "
-            f"when enable_api_docs='{enable_api_docs}'"
-        )
+        assert "drf_resource.contrib.urls" in content, "urls.py should include 'drf_resource.contrib.urls'"
+        assert "settings.ENVIRONMENT" in content, "urls.py should gate API docs behind settings.ENVIRONMENT"
+        assert "SpectacularAPIView" not in content, "urls.py should not directly import SpectacularAPIView"
 
 
 class TestS03ExampleApp:

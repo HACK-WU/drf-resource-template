@@ -12,7 +12,6 @@ class TestS02Config:
             enable_celery="yes",
             enable_cors="yes",
             enable_i18n="yes",
-            enable_api_docs="yes"
         )
         assert project_dir.exists()
         assert (project_dir / "config" / "defaults" / "__init__.py").is_file()

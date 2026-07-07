@@ -1,4 +1,4 @@
-"""API 文档配置 — 仅 enable_api_docs=yes 时生成"""
+"""API 文档配置"""
 SPECTACULAR_SETTINGS = {
     "TITLE": "{{ cookiecutter.project_name }} API",
     "DESCRIPTION": "{{ cookiecutter.project_description }}",

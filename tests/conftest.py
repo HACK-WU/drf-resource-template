@@ -27,7 +27,6 @@ def default_context():
         "enable_redis_cache": "no",
         "enable_cors": "no",
         "enable_i18n": "no",
-        "enable_api_docs": "no",
     }
 
 
@@ -44,7 +43,6 @@ def full_context():
         "enable_redis_cache": "yes",
         "enable_cors": "yes",
         "enable_i18n": "yes",
-        "enable_api_docs": "yes",
     }
 
 
@@ -66,7 +64,6 @@ def render_template(tmp_path, template_dir):
             "enable_redis_cache": "no",
             "enable_cors": "no",
             "enable_i18n": "no",
-            "enable_api_docs": "no",
         }
         if extra_context:
             context.update(extra_context)

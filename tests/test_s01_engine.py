@@ -68,9 +68,9 @@ class TestS01Engine:
         assert celery_dir.exists()
         assert (celery_dir / "__init__.py").is_file()
 
-    def test_tc_s01_03_04_redis_api_docs_conditional(self, render_template):
-        """TC-S01-03-04: Redis/API 文档条件输出"""
-        project_dir = render_template(enable_redis_cache="yes", enable_api_docs="yes")
+    def test_tc_s01_03_04_redis_conditional(self, render_template):
+        """TC-S01-03-04: Redis 条件输出"""
+        project_dir = render_template(enable_redis_cache="yes")
         assert project_dir.exists()
 
     # ── TC-S01-04: 内容验证 ──────────────────────────

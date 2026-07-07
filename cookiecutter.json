@@ -8,7 +8,6 @@
     "enable_redis_cache": ["yes", "no"],
     "enable_cors": ["yes", "no"],
     "enable_i18n": ["yes", "no"],
-    "enable_api_docs": ["yes", "no"],
     "_copy_without_render": [
         "static",
         "*.css",

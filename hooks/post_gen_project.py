@@ -6,7 +6,6 @@ ENABLE_CELERY = "{{ cookiecutter.enable_celery }}" == "yes"
 ENABLE_REDIS_CACHE = "{{ cookiecutter.enable_redis_cache }}" == "yes"
 ENABLE_CORS = "{{ cookiecutter.enable_cors }}" == "yes"
 ENABLE_I18N = "{{ cookiecutter.enable_i18n }}" == "yes"
-ENABLE_API_DOCS = "{{ cookiecutter.enable_api_docs }}" == "yes"
 
 print(f"""
 ✅ 项目 {PROJECT_NAME} 已生成！
@@ -24,15 +23,14 @@ print(f"""
 3. 安装依赖：
    pip install -r requirements.txt
 
-4. 配置环境变量：
-   cp .env.example .env
-   # 编辑 .env 文件配置数据库等
-
-5. 初始化数据库：
+4. 初始化数据库：
    python manage.py migrate
 
-6. 启动开发服务器：
+5. 启动开发服务器：
    python manage.py runserver
+
+💡 local_settings.py 已生成，包含本地开发默认配置，可按需修改。
+   该文件已被 .gitignore 忽略，不会被提交。
 """)
 
 if ENABLE_CELERY:
@@ -49,8 +47,7 @@ if ENABLE_REDIS_CACHE:
    redis-server  # 或通过 Docker 启动
 """)
 
-if ENABLE_API_DOCS:
-    print("""
+print("""
 📚 API 文档已启用：
    访问 http://localhost:8000/api/docs/ 查看 Swagger UI
 """)

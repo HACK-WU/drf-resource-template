@@ -28,10 +28,8 @@ from config.defaults.cors import *  # noqa
 # 10. 国际化（条件生成）
 from config.defaults.i18n import *  # noqa
 {% endif %}
-{% if cookiecutter.enable_api_docs == "yes" %}
-# 11. API 文档（条件生成）
+# 11. API 文档
 from config.defaults.api_docs import *  # noqa
-{% endif %}
 
 # 12. 环境变量覆盖（必须最后加载，可覆盖前面所有配置）
 from config.defaults.env_override import *  # noqa

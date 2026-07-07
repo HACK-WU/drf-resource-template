@@ -36,9 +36,14 @@ python manage.py runserver
 ```
 
 访问 http://localhost:8000/api/ 查看 API。
-{% if cookiecutter.enable_api_docs == "yes" %}
-访问 http://localhost:8000/api/docs/ 查看 API 文档。
-{% endif %}
+
+API 文档（仅开发环境可用）：
+- http://localhost:8000/api/docs/ — 文档首页
+- http://localhost:8000/api/docs/swagger/ — Swagger UI
+- http://localhost:8000/api/redoc/ — ReDoc
+
+API Explorer（仅开发环境可用，用于调试第三方 API）：
+- http://localhost:8000/api_explorer/
 
 ## 项目结构
 

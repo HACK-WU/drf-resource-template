@@ -61,25 +61,6 @@ class TestI18nSwitch:
         assert "LocaleMiddleware" not in content, "apps.py 不应包含 LocaleMiddleware"
 
 
-# ── TC-S04-01-04: enable_api_docs 开关 ──────────────────────────────────
-class TestApiDocsSwitch:
-    """enable_api_docs 开关测试"""
-
-    def test_api_docs_yes_includes_drf_spectacular(self, render_template):
-        """TC-S04-01-04a: enable_api_docs="yes" 时 apps.py 包含 drf_spectacular"""
-        project_dir = render_template(enable_api_docs="yes")
-        apps_file = project_dir / "config" / "defaults" / "apps.py"
-        content = apps_file.read_text()
-        assert "drf_spectacular" in content, "apps.py 应包含 drf_spectacular"
-
-    def test_api_docs_no_excludes_drf_spectacular(self, render_template):
-        """TC-S04-01-04b: enable_api_docs="no" 时 apps.py 不包含 drf_spectacular"""
-        project_dir = render_template(enable_api_docs="no")
-        apps_file = project_dir / "config" / "defaults" / "apps.py"
-        content = apps_file.read_text()
-        assert "drf_spectacular" not in content, "apps.py 不应包含 drf_spectacular"
-
-
 # ── TC-S04-01-05: enable_redis_cache 开关 ──────────────────────────────
 class TestRedisCacheSwitch:
     """enable_redis_cache 开关测试"""
@@ -110,7 +91,6 @@ class TestAllSwitchesOff:
             enable_redis_cache="no",
             enable_cors="no",
             enable_i18n="no",
-            enable_api_docs="no",
         )
         assert project_dir.is_dir(), f"项目目录不存在: {project_dir}"
         assert (project_dir / "manage.py").is_file(), "manage.py 不存在"

@@ -22,9 +22,7 @@ INSTALLED_APPS = [
     "django_celery_beat",
     "django_celery_results",
     {% endif %}
-    {% if cookiecutter.enable_api_docs == "yes" %}
     "drf_spectacular",
-    {% endif %}
     "{{ cookiecutter.project_name }}.apps.example",
 ]
 

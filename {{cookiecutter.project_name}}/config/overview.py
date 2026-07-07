@@ -25,7 +25,7 @@
     celery.py          - Celery 异步任务（enable_celery）
     cors.py            - CORS 跨域（enable_cors）
     i18n.py            - 国际化（enable_i18n）
-    api_docs.py        - API 文档（enable_api_docs）
+    api_docs.py        - API 文档
 
 角色配置（config/role/）：
     web.py             - Web 角色（添加 CORS/Celery/docs 到 INSTALLED_APPS）

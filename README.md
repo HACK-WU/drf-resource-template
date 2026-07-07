@@ -7,7 +7,7 @@
 - **声明式 API 开发**：基于 drf_resource 的 Resource → ViewSet → Router 三层架构
 - **模块化配置**：四层配置分离（settings → defaults → role → env），支持环境变量覆盖
 - **角色分离**：内置 web / worker 角色配置，适配不同部署场景
-- **功能开关**：通过 Cookiecutter 变量控制可选功能（Celery、Redis、CORS、i18n、API 文档）
+- **功能开关**：通过 Cookiecutter 变量控制可选功能（Celery、Redis、CORS、i18n）
 - **开发就绪**：预配置 pre-commit、commitlint、pytest，代码质量开箱即用
 
 ## 快速开始
@@ -15,7 +15,7 @@
 ### 1. 安装 cruft
 
 ```bash
-pip install cruft
+uv tool install cruft
 ```
 
 ### 2. 创建项目
@@ -56,10 +56,6 @@ Select enable_i18n:
 1 - yes
 2 - no
 Choose from 1, 2 [1]: 2
-Select enable_api_docs:
-1 - yes
-2 - no
-Choose from 1, 2 [1]: 1
 ```
 
 ### 3. 启动项目
@@ -69,7 +65,6 @@ cd my_api
 python -m venv venv
 source venv/bin/activate  # Linux/macOS
 pip install -r requirements.txt
-cp .env.example .env
 python manage.py migrate
 python manage.py runserver
 ```
@@ -102,7 +97,6 @@ python manage.py runserver
 | `enable_redis_cache` | `yes` | 是否启用 Redis 缓存 |
 | `enable_cors` | `yes` | 是否启用 CORS 跨域 |
 | `enable_i18n` | `yes` | 是否启用国际化 |
-| `enable_api_docs` | `yes` | 是否启用 API 文档（Swagger UI） |
 
 ## 生成的项目结构
 
@@ -127,6 +121,7 @@ my_api/
 │   ├── settings.py             # 配置入口
 │   └── urls.py                 # URL 路由
 ├── manage.py                   # Django 管理命令
+├── local_settings.py           # 本地开发配置（已加入 .gitignore）
 ├── requirements.txt            # Python 依赖
 └── .env.example                # 环境变量示例
 ```
@@ -157,18 +152,38 @@ class ExampleResource(Resource):
 ### 视图集 (`apps/example/viewsets.py`)
 
 ```python
-from drf_resource.views.viewsets import ResourceViewSet
-from .resources import ExampleResource
+from drf_resource.views.viewsets import ResourceViewSet, ResourceRoute
+from drf_resource import resource
 
 class ExampleViewSet(ResourceViewSet):
     """示例视图集"""
-    resource = ExampleResource
+    resource_routes = [
+        ResourceRoute(
+            method="GET",
+            resource_class=resource.example.example,
+        ),
+    ]
 ```
+
+### 自动发现与调用
+
+drf_resource 会在 Django 启动时自动扫描 `INSTALLED_APPS` 中的 `resources.py`，注册到 `resource` 管理器。业务代码可直接调用，无需手动导入：
+
+```python
+from drf_resource import resource
+
+# 自动发现后，通过快捷方式调用
+result = resource.example.example(name="World")
+print(result)
+# {'id': 1, 'name': 'World', 'message': 'Hello, World! This is powered by drf_resource.'}
+```
+
+ViewSet + ResourceRouter 用于将 Resource 暴露为 HTTP 端点；业务逻辑复用直接走 `resource.xxx` 调用。
 
 ### API 端点
 
 - `GET /api/example/?name=World` — 获取问候消息
-- 访问 http://localhost:8000/api/docs/ 查看 Swagger UI（需启用 `enable_api_docs`）
+- 访问 http://localhost:8000/api/docs/ 查看 Swagger UI
 
 ## 高级用法
 
@@ -193,7 +208,7 @@ DJANGO_ROLE=worker celery -A my_api worker -l info
 
 ### 本地配置覆盖
 
-创建 `local_settings.py` 覆盖默认配置（已加入 .gitignore）。
+`local_settings.py` 已预生成，包含本地开发默认配置（数据库、缓存、日志等），可按需修改。该文件已被 `.gitignore` 忽略，不会被提交。
 
 ## 模板更新
 
