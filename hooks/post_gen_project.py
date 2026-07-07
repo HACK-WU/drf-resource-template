@@ -16,19 +16,15 @@ print(f"""
 1. 进入项目目录：
    cd {PROJECT_NAME}
 
-2. 创建虚拟环境：
-   python -m venv venv
-   source venv/bin/activate  # Linux/macOS
-   # venv\\Scripts\\activate   # Windows
+2. 创建虚拟环境并安装依赖：
+   uv venv
+   uv pip install -r requirements.txt
 
-3. 安装依赖：
-   pip install -r requirements.txt
+3. 初始化数据库：
+   uv run python manage.py migrate
 
-4. 初始化数据库：
-   python manage.py migrate
-
-5. 启动开发服务器：
-   python manage.py runserver
+4. 启动开发服务器：
+   uv run python manage.py runserver
 
 💡 local_settings.py 已生成，包含本地开发默认配置，可按需修改。
    该文件已被 .gitignore 忽略，不会被提交。
@@ -45,9 +41,9 @@ if PROJECT_NAME != PROJECT_SLUG:
 if ENABLE_CELERY:
     print("""
 🔧 Celery 已启用，启动 worker：
-   celery -A {{ cookiecutter.__project_slug }} worker -l info
+   uv run celery -A {{ cookiecutter.__project_slug }} worker -l info
    # 启动 beat（定时任务）：
-   celery -A {{ cookiecutter.__project_slug }} beat -l info
+   uv run celery -A {{ cookiecutter.__project_slug }} beat -l info
 """)
 
 if ENABLE_REDIS_CACHE:

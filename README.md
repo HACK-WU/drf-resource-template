@@ -62,11 +62,10 @@ Choose from 1, 2 [1]: 2
 
 ```bash
 cd my_api
-python -m venv venv
-source venv/bin/activate  # Linux/macOS
-pip install -r requirements.txt
-python manage.py migrate
-python manage.py runserver
+uv venv
+uv pip install -r requirements.txt
+uv run python manage.py migrate
+uv run python manage.py runserver
 ```
 
 访问 http://localhost:8000/api/example/?name=World 查看示例 API：
@@ -200,10 +199,10 @@ export SETTINGS_DEBUG=True
 
 ```bash
 # Web 角色（默认）
-DJANGO_ROLE=web python manage.py runserver
+DJANGO_ROLE=web uv run python manage.py runserver
 
 # Worker 角色（需启用 Celery）
-DJANGO_ROLE=worker celery -A my_api worker -l info
+DJANGO_ROLE=worker uv run celery -A my_api worker -l info
 ```
 
 ### 本地配置覆盖
